@@ -28,23 +28,52 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <meta name="color-scheme" content="light dark">
-        <link rel="stylesheet" href="css/index.css">
+        <link href="css/cdn.jsdelivr.net_npm_bootstrap@5.3.2_dist_css_bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome-free-6.4.2-web/css/all.min.css" rel="stylesheet">
+        <style>
+            textarea:focus, input:focus{
+                border-color:#e03c73 !important;
+                box-shadow: 0 0 0 0.25rem #f2bcce !important;
+            }
+
+            .dropstart .dropdown-toggle::before { display: none; }
+        </style>
         <title>Hello World</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        
+        <nav class="navbar fixed-top" style="background-color: #e03c73; --bs-bg-opacity: 1;">
+            <div class="container-fluid">
+              <span class="navbar-brand mb-0 h1 text-white">Meu Brechó</span>
+              <span class="navbar-text">
+                <div class="dropdown dropstart">
+                    <button class="btn btn-secondary dropdown-toggle rounded-circle" style="background-color: #FFF; border-color: #FFF;" type="button" id="btnUserMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user" style="color: #ef1c62"></i>
+                    </button>
+                    <ul id="ulUserMenu" class="dropdown-menu" aria-labelledby="btnUserMenu">
+                      <li><a class="dropdown-item" href="#" onclick="loadView('login')">Entrar</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="loadView('registrar')">Registrar</a></li>
+                    </ul>
+                  </div>
+              </span>
+        
             </div>
+        </nav>
+
+
+        <div id="view" class="app" style="margin-top: 20%;">
+            
         </div>
+
         <script src="cordova.js"></script>
+        <script src="js/cdn.jsdelivr.net_npm_bootstrap@5.3.2_dist_js_bootstrap.bundle.min.js"></script>
+        <script src="js/code.jquery.com_jquery-3.7.1.min.js"></script>
+        <script src="js/code.jquery.com_ui_1.13.2_jquery-ui.min.js"></script>
         <script src="js/index.js"></script>
     </body>
 </html>
+
