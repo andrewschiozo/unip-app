@@ -19,11 +19,46 @@
 
 // Wait for the deviceready event before using any of Cordova's device APIs.
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
-document.addEventListener('deviceready', onDeviceReady, false);
+// document.addEventListener('deviceready', main);
 
-function onDeviceReady() {
-    // Cordova is now initialized. Have fun!
+$(function(){
+    // console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+    MeuBrecho = {
+        data: {
+            logado: false
+            ,usuario: null
+        }
+        ,save: function(){
+            localStorage.setItem('data', JSON.stringify(this.data))
+        }
+        ,get: function(){
+            return JSON.parse(localStorage.getItem('data'))
+        }
+    }
 
-    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
-    document.getElementById('deviceready').classList.add('ready');
+    MeuBrecho.save();
+
+    console.log('run')
+    loadView('lista')
+    
+    $('#btnUserMenu').click(function(){
+        console.log(MeuBrecho.get().logado)
+        if(MeuBrecho.get().logado)
+        {
+            console.log('logado')
+            $('#ulUserMenu').html('')
+            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Meu Perfil</a></li>')
+            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Meus Produtos</a></li>')
+            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Mensagens</a></li>')
+            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Sair</a></li>')
+            return
+        }
+    })
+})
+
+function loadView(view){
+    $('#view').html('')
+    $.get(view + '.html', function(data){
+        $('#view').html(data)
+    })
 }
