@@ -1,0 +1,25 @@
+<div class="m-1">
+    <h3 class="text-center">Mensagens</h3>
+    
+    <div class="card mb-1 abrirMensagem">
+        <div class="card-body">
+          <strong>Pedro: </strong> Oi, podemos combinar a entrega?
+        </div>
+    </div>
+
+    <div class="card mb-1 abrirMensagem">
+        <div class="card-body">
+          <strong>Laura: </strong> Tem interessee m troca?
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#nome').val(MeuBrecho.get().usuario.nome)
+    $('#email').val(MeuBrecho.get().usuario.email)
+    $('#uf').val(MeuBrecho.get().usuario.uf)
+
+    $('.abrirMensagem').click(function(){
+      loadView('mensagem')
+    })
+</script>
