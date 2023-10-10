@@ -34,25 +34,35 @@ $(function(){
         ,get: function(){
             return JSON.parse(localStorage.getItem('data'))
         }
+        ,sair: function(){
+            this.data.logado = false
+            this.data.usuario = null
+            this.save()
+        }
     }
 
     MeuBrecho.save();
 
-    console.log('run')
     loadView('lista')
     
     $('#btnUserMenu').click(function(){
-        console.log(MeuBrecho.get().logado)
         if(MeuBrecho.get().logado)
         {
-            console.log('logado')
             $('#ulUserMenu').html('')
-            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Meu Perfil</a></li>')
-            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Meus Produtos</a></li>')
-            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Mensagens</a></li>')
-            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#">Sair</a></li>')
+            $('#ulUserMenu').append("<li><a class='dropdown-item' href='#' onclick=loadView('meuperfil')>Meu Perfil</a></li>")
+            $('#ulUserMenu').append("<li><a class='dropdown-item' href='#' onclick=loadView('meusprodutos')>Meus Produtos</a></li>")
+            $('#ulUserMenu').append("<li><a class='dropdown-item' href='#' onclick=loadView('mensagens')>Mensagens</a></li>")
+            $('#ulUserMenu').append('<li><a class="dropdown-item" href="#" onclick=sair()>Sair</a></li>')
             return
         }
+        $('#ulUserMenu').html('')
+        $('#ulUserMenu').append('<li><a class="dropdown-item" href="#" onclick=loadView("login")>Entrar</a></li>')
+        $('#ulUserMenu').append('<li><a class="dropdown-item" href="#" onclick=loadView("registrar")>Registrar</a></li>')
+        return
+    })
+
+    $('body').on('click', '.cardproduto', function(){
+        loadView('produto')
     })
 })
 
@@ -61,4 +71,9 @@ function loadView(view){
     $.get(view + '.html', function(data){
         $('#view').html(data)
     })
+}
+
+function sair(){
+    MeuBrecho.sair()
+    loadView('lista')
 }
