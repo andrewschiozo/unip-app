@@ -8,6 +8,39 @@
     </div>
 
     <div class="form-group mb-3">
+      <select class="form-control input-sm" id="regiao">
+          <option>Região</option>
+          <option value="AC">Acre</option>
+          <option value="AL">Alagoas</option>
+          <option value="AM">Amazonas</option>
+          <option value="AP">Amapá</option>
+          <option value="BA">Bahia</option>
+          <option value="CE">Ceará</option>
+          <option value="DF">Distrito Federal</option>
+          <option value="ES">Espírito Santo</option>
+          <option value="GO">Goiás</option>
+          <option value="MA">Maranhão</option>
+          <option value="MG">Minas Gerais</option>
+          <option value="MS">Mato Grosso do Sul</option>
+          <option value="MT">Mato Grosso</option>
+          <option value="PA">Pará</option>
+          <option value="PB">Paraíba</option>
+          <option value="PE">Pernambuco</option>
+          <option value="PI">Piauí</option>
+          <option value="PR">Paraná</option>
+          <option value="RJ">Rio de Janeiro</option>
+          <option value="RN">Rio Grande do Norte</option>
+          <option value="RO">Rondônia</option>
+          <option value="RR">Roraima</option>
+          <option value="RS">Rio Grande do Sul</option>
+          <option value="SC">Santa Catarina</option>
+          <option value="SE">Sergipe</option>
+          <option value="SP">São Paulo</option>
+          <option value="TO">Tocantins</option>
+        </select>
+  </div>
+
+    <div class="form-group mb-3">
       <input type="email" class="form-control form-control-lg" id="email" autocomplete="email" placeholder="E-mail">
     </div>
 
@@ -15,9 +48,44 @@
       <input type="password" class="form-control form-control-lg" id="senha" autocomplete="new-password" placeholder="Senha">
     </div>
     
-    <button type="button" class="col-12 btn" style="color: #FFF; background-color: #e03c73">Registrar</button>
+    <button type="button" class="col-12 btn" style="color: #FFF; background-color: #e03c73" onclick="registrar()">Registrar</button>
 </form>
 
 <script>
+
+  function registrar()
+  {
+    requestConfig = {
+            route: 'Login'
+            ,method: 'POST'
+            ,resource: 'primeiroacesso'
+            ,data: {
+                 nome: $('#nome').val()
+                ,email: $('#email').val()
+                ,senha: $('#senha').val()
+                ,regiao: $('#regiao').val()
+            }
+        }
+
+        $.requestService(requestConfig, function(response){
+            if(!response.status)
+                return
+
+            $.notify({message: 'Você já pode voltar e fazer login!'},{type: 'success'})
+
+            $('#nome').val('')
+            $('#email').val('')
+            $('#senha').val('')
+            $('#regiao').val('')
+
+            let tokenData = parseJwt(response.data.token)
+
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('nome', tokenData.data.name)
+            
+            $.loadView('home')
+            localStorage.setItem('homeLoaded', true)
+        })
+  }
     
 </script>

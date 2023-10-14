@@ -21,6 +21,23 @@
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
 // document.addEventListener('deviceready', main);
 
+localStorage.setItem('view', 'login')
+
+if(localStorage.getItem('view') == 'login')
+{
+    localStorage.clear()
+    sessionStorage.clear()
+}
+
+const GLOBALS = {
+    baseUrl: window.location.origin + 'unip/app/www/'
+   ,baseUrlService: window.location.origin + '/unip/service/'
+   ,meses: {
+        nome:  ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+   }
+   ,Today: new Date()
+}
+
 $(function(){
     // console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     MeuBrecho = {
@@ -76,4 +93,37 @@ function loadView(view){
 function sair(){
     MeuBrecho.sair()
     loadView('lista')
+}
+
+$.requestService = function({route, method = 'GET', data = {}, resource = null, async = true} = {}, callback){
+
+    let config = {
+        url: GLOBALS.baseUrlService + route
+        ,type: method
+        ,contentType: 'application/json'
+        ,data: JSON.stringify({data: data, resource: resource})
+        ,async: async
+        ,dataType: 'json'
+        ,success: function(response){
+            callback(response)
+        }
+        ,error: function(request){
+            $.notify({message: 'Wooops! Não foi possível fazer isso'},{type: 'danger'})
+        }
+        ,complete: function(request)
+        {
+            let notificacaoMensagem = ''
+            if(request.responseJSON.message.length > 0)
+            {
+                $.each(request.responseJSON.message, function(index, mensagem) {
+                    notificacaoMensagem += mensagem + '; '
+                })
+                $.notify({message: notificacaoMensagem},{type: request.responseJSON.status ? 'success' : 'danger'})
+            }
+        }
+
+    }
+    config.headers = route !== 'Login' ? {'Authorization': 'Bearer ' + localStorage.getItem('token')} : null
+
+    $.ajax(config)
 }
