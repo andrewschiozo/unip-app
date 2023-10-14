@@ -24,10 +24,10 @@
 $(function(){
     // console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     MeuBrecho = {
-        data: {
+       data: {
             logado: false
             ,usuario: null
-        }
+        } 
         ,save: function(){
             localStorage.setItem('data', JSON.stringify(this.data))
         }
