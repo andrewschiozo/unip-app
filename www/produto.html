@@ -41,18 +41,19 @@
 
     <div class="form-group mb-3 descricao"></div>
     
-    <button type="button" class="col-12 btn" style="color: #FFF; background-color: #e03c73">Eu quero!</button>
+    <a href="#" id="linkInteresse" class="col-12 btn" style="color: #FFF; background-color: #e03c73" onclick="mensagem()">Eu quero!</button>
 </form>
 
 <script>
-  requestConfig = {
-            route: 'MeuBrecho'
-            ,method: 'GET'
-            ,resource: 'getProdutos'
-            ,data: {
-              id: MeuBrecho.produto
-            }
-        }
+    
+    requestConfig = {
+              route: 'MeuBrecho'
+              ,method: 'GET'
+              ,resource: 'getProdutos'
+              ,data: {
+                id: MeuBrecho.produto
+              }
+    }
 
     $.requestService(requestConfig, function(response){
       if(!response.status)
@@ -74,5 +75,9 @@
       $('.descricao').text(produto.descricao)
       $('.valor').text('R$ ' + produto.valor)
 
+      mensagem = 'Olá, vi o produto ' + produto.id + ' - ' + produto.nome + ' no app Meu Brechó. Pode me falar mais sobre ele?'
+      console.log(mensagem)
+      $('#linkInteresse').attr('href', 'https://wa.me//55' + produto.usuario.telefone + '?text=' + mensagem)
+      console.log('fim')
     })
 </script>

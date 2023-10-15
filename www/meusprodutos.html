@@ -5,21 +5,54 @@
         <button onclick="loadView('novoproduto')" type="button" class="btn" style="color: #FFF; background-color: #e03c73"><i class="fa fa-plus"></i> Incluir</button>
     </div>
 
-    <div class="col-12 col-lg-4 card rounded m-1 mb-3 cardproduto">
+    <div class="row">
+      <div id="cardprodutomodelo" class="col-12 col-lg-4 card rounded m-1 mb-3 cardproduto d-none">
         <div class="row h-100 g-0">
-          <div class="col-3 my-auto align-middle">
-            <img src="img/produto1-1.jpg" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-9">
-            <div class="card-body">
-              <h5 class="card-title">Vestido florescente</h5>
-              <p class="card-text"> Vestido curto florescente, tamanho P</p>
-                <div class="row">
-                    <div class="col-6 fw-bold">R$ 30,00</div>
-                    <div class="col-6 text-end"><small class="text-body-secondary fst-italic">15/07/2023</small></div>
-                </div> 
-            </div>
-          </div>
+        <div class="col-3 my-auto align-middle">
+            <img src="img/no-image.png" class="img-fluid rounded-start imagem">
         </div>
+        <div class="col-9">
+            <div class="card-body">
+              <h5 class="card-title nome"></h5>
+              <p class="card-text descricao"></p>
+              <div class="row">
+                <div class="col-6 fw-bold valor"></div>
+                <!-- <div class="col-6 text-end"><small class="text-body-secondary fst-italic data">05/10/2023</small></div> -->
+              </div>
+            </div>
+        </div>
+        </div>
+      </div>
+      <div id="listaprodutos"></div>
     </div>
 </div>
+
+<script>
+  requestConfig = {
+            route: 'Produto'
+            ,method: 'GET'
+            ,data: filtro
+        }
+
+    $.requestService(requestConfig, function(response){
+      if(!response.status)
+        return
+      
+      $('#listaprodutos').html('')
+      $.each(response.data, function(index, produto){
+        card = $('#cardprodutomodelo').clone()
+        $(card).attr('idproduto', produto.id)
+        $(card).find('.nome').text(produto.nome)
+        $(card).find('.descricao').text(produto.descricao)
+        $(card).find('.valor').text('R$ ' + produto.valor)
+        if(produto.imagens.length > 0)
+        {
+          $(card).find('.imagem').attr('src', 'img/' + produto.imagens[0].imagem)
+        }
+        card.removeAttr('id')
+        card.removeClass('d-none')
+
+        $('#listaprodutos').append(card)
+      })
+    })
+</script>

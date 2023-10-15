@@ -39,6 +39,10 @@
           <option value="TO">Tocantins</option>
         </select>
   </div>
+    <div class="form-group mb-3">
+      <input type="text" class="form-control form-control-lg" id="telefone" autocomplete="telefone" placeholder="Telefone">
+      <small>Somente números. Ex: 11999994444</small>
+    </div>
 
     <div class="form-group mb-3">
       <input type="email" class="form-control form-control-lg" id="email" autocomplete="email" placeholder="E-mail">
@@ -64,6 +68,7 @@
                 ,email: $('#email').val()
                 ,senha: $('#senha').val()
                 ,regiao: $('#regiao').val()
+                ,telefone: $('#telefone').val()
             }
         }
 
@@ -76,6 +81,7 @@
             $('#nome').val('')
             $('#email').val('')
             $('#senha').val('')
+            $('#telefone').val('')
             $('#regiao').val('Região')
         })
   }

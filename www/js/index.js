@@ -71,7 +71,6 @@ $(function(){
             $('#ulUserMenu').html('')
             $('#ulUserMenu').append("<li><a class='dropdown-item' href='#' onclick=loadView('meuperfil')>Meu Perfil</a></li>")
             $('#ulUserMenu').append("<li><a class='dropdown-item' href='#' onclick=loadView('meusprodutos')>Meus Produtos</a></li>")
-            $('#ulUserMenu').append("<li><a class='dropdown-item' href='#' onclick=loadView('mensagens')>Mensagens</a></li>")
             $('#ulUserMenu').append('<li><a class="dropdown-item" href="#" onclick=sair()>Sair</a></li>')
             return
         }
