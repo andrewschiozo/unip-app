@@ -10,13 +10,13 @@
             <div id="carouselProduto" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="img/no-image.png" class="d-block w-100" alt="...">
+                    <img id="img1" src="img/no-image.png" class="d-block w-100" alt="...">
                   </div>
                   <div class="carousel-item">
-                    <img src="img/no-image.png" class="d-block w-100" alt="...">
+                    <img id="img2" src="img/no-image.png" class="d-block w-100" alt="...">
                   </div>
                   <div class="carousel-item">
-                    <img src="img/no-image.png" class="d-block w-100" alt="...">
+                    <img id="img3" src="img/no-image.png" class="d-block w-100" alt="...">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselProduto" data-bs-slide="prev">
@@ -62,10 +62,17 @@
 
       $('#listaprodutos').html('')
       
-        $('#idproduto', produto.id)
-        $('.nome').text(produto.nome)
-        $('.descricao').text(produto.descricao)
-        $('.valor').text('R$ ' + produto.valor)
+      i = 1
+      $.each(produto.imagens, function(index, imagem){
+        $('#img' + i).attr('src', 'img/' + imagem.imagem)
+      })
+
+      $('#idproduto', produto.id)
+      $('.nome').text(produto.nome)
+      $('.categoria').text(produto.categoria)
+      $('.regiao').text(produto.uf)
+      $('.descricao').text(produto.descricao)
+      $('.valor').text('R$ ' + produto.valor)
 
     })
 </script>

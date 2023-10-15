@@ -105,6 +105,10 @@
         $(card).find('.nome').text(produto.nome)
         $(card).find('.descricao').text(produto.descricao)
         $(card).find('.valor').text('R$ ' + produto.valor)
+        if(produto.imagens.length > 0)
+        {
+          $(card).find('.imagem').attr('src', 'img/' + produto.imagens[0].imagem)
+        }
         card.removeAttr('id')
         card.removeClass('d-none')
 

@@ -94,8 +94,17 @@
         $('#' + $(obj).attr('target')).attr('src', URL.createObjectURL(event.target.files[0]))
     }
 
-    $(".imgproduto").on('change',function(){
-      files[$(this).attr('id')] = $(this)[0].files[0]
+    $(".imgproduto").on('change',function(event){
+        const selectedfile = event.target.files
+        if (selectedfile.length > 0) {
+            const [imageFile] = selectedfile
+            const fileReader = new FileReader()
+            fileReader.onload = () => {
+                const srcData = fileReader.result
+                files[$(this).attr('id')] = srcData
+            }
+            fileReader.readAsDataURL(imageFile);
+        }
     })
    
 
