@@ -2,17 +2,18 @@
 
 
 <form class="m-1">
-    <h3 class="text-center">Vestido florescente</h3>
+  <input type="hidden" id="idproduto" value="">
+    <h3 class="text-center nome"></h3>
 
     <div class="row mb-3">
         <div class="col-12">
             <div id="carouselProduto" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="img/produto1-1.jpg" class="d-block w-100" alt="...">
+                    <img src="img/no-image.png" class="d-block w-100" alt="...">
                   </div>
                   <div class="carousel-item">
-                    <img src="img/produto1-2.jpg" class="d-block w-100" alt="...">
+                    <img src="img/no-image.png" class="d-block w-100" alt="...">
                   </div>
                   <div class="carousel-item">
                     <img src="img/no-image.png" class="d-block w-100" alt="...">
@@ -32,15 +33,39 @@
 
     <div class="row form-group mb-3 ">
         <div class="col-6">
-            <i class="fa fa-map-marker" aria-hidden="true"></i> São Paulo
-            <br><i class="fa fa-tag" aria-hidden="true"></i> Vestido
+            <i class="fa fa-map-marker" aria-hidden="true"></i> <span class="regiao"></span>
+            <br><i class="fa fa-tag" aria-hidden="true"></i> <span class="categoria"></span>
         </div>
-        <div class="col-6 text-end"><h3>R$ 35,00</h3></div>
+        <div class="col-6 text-end"><h3 class="valor"></h3></div>
     </div>
 
-    <div class="form-group mb-3">
-      Vestido curto florescente, tamanho P
-    </div>
+    <div class="form-group mb-3 descricao"></div>
     
     <button type="button" class="col-12 btn" style="color: #FFF; background-color: #e03c73">Eu quero!</button>
 </form>
+
+<script>
+  requestConfig = {
+            route: 'MeuBrecho'
+            ,method: 'GET'
+            ,resource: 'getProdutos'
+            ,data: {
+              id: MeuBrecho.produto
+            }
+        }
+
+    $.requestService(requestConfig, function(response){
+      if(!response.status)
+        return
+      
+      produto = response.data[0]
+
+      $('#listaprodutos').html('')
+      
+        $('#idproduto', produto.id)
+        $('.nome').text(produto.nome)
+        $('.descricao').text(produto.descricao)
+        $('.valor').text('R$ ' + produto.valor)
+
+    })
+</script>

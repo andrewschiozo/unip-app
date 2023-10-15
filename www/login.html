@@ -8,15 +8,35 @@
       <input type="password" class="form-control form-control-lg" id="senha" autocomplete="current-password" placeholder="Senha">
     </div>
     
-    <button type="button" id="btnLogin" class="col-12 btn" style="color: #FFF; background-color: #e03c73">Entrar</button>
+    <button type="button" id="btnLogin" class="col-12 btn" style="color: #FFF; background-color: #e03c73" onclick="login()">Entrar</button>
 </form>
 
 <script>
-    $('#btnLogin').click(function(){
-      MeuBrecho.data.logado = true
-      MeuBrecho.data.usuario = {nome: 'Maria Cecília', email: 'mariacecilia@email.com', uf: 'SP'}
-      MeuBrecho.save()
 
-      loadView('lista')
-    })
+  function login()
+  {
+    requestConfig = {
+            route: 'Login'
+            ,method: 'POST'
+            ,data: {
+                 email: $('#email').val()
+                ,senha: $('#senha').val()
+            }
+        }
+
+        $.requestService(requestConfig, function(response){
+            if(!response.status)
+                return
+
+            $.notify({message: 'Sucesso!'},{type: 'success'})
+
+            MeuBrecho.data.logado = true
+            MeuBrecho.data.token = response.data.token
+            MeuBrecho.data.usuario = parseJwt(response.data.token)
+            MeuBrecho.save()
+
+            loadView('lista')
+        })
+  }
+    
 </script>

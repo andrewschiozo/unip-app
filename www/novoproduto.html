@@ -7,15 +7,15 @@
     <div class="row mb-3">
         <div class="col-4">
             <img id="previmg1" src="" class="img-fluid" />
-            <input class="form-control" type="file" id="img1" target="previmg1" onchange="preview(this)">
+            <input class="form-control imgproduto" type="file" id="img1" target="previmg1" onchange="preview(this)">
         </div>
         <div class="col-4">
             <img id="previmg2" src="" class="img-fluid" />
-            <input class="form-control" type="file" id="img2" target="previmg2" onchange="preview(this)">
+            <input class="form-control imgproduto" type="file" id="img2" target="previmg2" onchange="preview(this)">
         </div>
         <div class="col-4">
             <img id="previmg3" src="" class="img-fluid" />
-            <input class="form-control" type="file" id="img3" target="previmg3" onchange="preview(this)">
+            <input class="form-control imgproduto" type="file" id="img3" target="previmg3" onchange="preview(this)">
         </div>
     </div>
 
@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-group mb-3">
-        <select class="form-control input-sm text-center">
+        <select id="regiao" class="form-control input-sm text-center">
             <option>Região</option>
             <option value="AC">Acre</option>
             <option value="AL">Alagoas</option>
@@ -61,7 +61,7 @@
     </div>
 
     <div class="form-group mb-3">
-        <select class="form-control input-sm text-center">
+        <select id="categoria" class="form-control input-sm text-center">
             <option>Categoria</option>
             <option value="Acessórios">Acessórios</option>
             <option value="Blusa">Blusa</option>
@@ -79,11 +79,52 @@
         <input type="number" step="0.01" class="text-end form-control form-control-lg" id="preco" placeholder="Valor (R$)">
     </div>
     
-    <button type="button" class="col-12 btn" style="color: #FFF; background-color: #e03c73">Registrar</button>
+    <button type="button" class="col-12 btn" style="color: #FFF; background-color: #e03c73" onclick="salvar()">Registrar</button>
+
 </form>
 
 <script>
+    files = {
+        img1: null
+        ,img2: null
+        ,img3: null
+    }
+
     function preview(obj) {
         $('#' + $(obj).attr('target')).attr('src', URL.createObjectURL(event.target.files[0]))
+    }
+
+    $(".imgproduto").on('change',function(){
+      files[$(this).attr('id')] = $(this)[0].files[0]
+    })
+   
+
+    function salvar(){
+
+        requestConfig = {
+            route: 'Produto'
+            ,method: 'POST'
+            ,data: {
+                 nome: $('#nome').val()
+                ,descricao: $('#descricao').val()
+                ,regiao: $('#regiao').val()
+                ,categoria: $('#categoria').val()
+                ,preco: $('#preco').val()
+                ,imagens: files
+            }
+        }
+        
+        $.requestService(requestConfig, function(response){
+            if(!response.status)
+                return
+
+            $.notify({message: 'Produto cadastrado!'},{type: 'success'})
+
+            $('#nome').val('')
+            $('#descricao').val('')
+            $('#regiao').val('Região')
+            $('#categoria').val('')
+            $('#preco').val('')
+        })
     }
 </script>

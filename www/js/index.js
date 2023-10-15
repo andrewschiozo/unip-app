@@ -44,6 +44,8 @@ $(function(){
        data: {
             logado: false
             ,usuario: null
+            ,token: null
+            ,produto: null
         } 
         ,save: function(){
             localStorage.setItem('data', JSON.stringify(this.data))
@@ -54,6 +56,7 @@ $(function(){
         ,sair: function(){
             this.data.logado = false
             this.data.usuario = null
+            this.data.token = null
             this.save()
         }
     }
@@ -79,6 +82,8 @@ $(function(){
     })
 
     $('body').on('click', '.cardproduto', function(){
+        MeuBrecho.produto = $(this).attr('idproduto')
+        MeuBrecho.save()
         loadView('produto')
     })
 })
@@ -93,6 +98,16 @@ function loadView(view){
 function sair(){
     MeuBrecho.sair()
     loadView('lista')
+}
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1]
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    }).join(''))
+
+    return JSON.parse(jsonPayload)
 }
 
 $.requestService = function({route, method = 'GET', data = {}, resource = null, async = true} = {}, callback){
@@ -123,7 +138,7 @@ $.requestService = function({route, method = 'GET', data = {}, resource = null, 
         }
 
     }
-    config.headers = route !== 'Login' ? {'Authorization': 'Bearer ' + localStorage.getItem('token')} : null
+    config.headers = route !== 'Login' ? {'Authorization': 'Bearer ' + MeuBrecho.get().token} : null
 
     $.ajax(config)
 }
