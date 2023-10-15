@@ -76,15 +76,7 @@
             $('#nome').val('')
             $('#email').val('')
             $('#senha').val('')
-            $('#regiao').val('')
-
-            let tokenData = parseJwt(response.data.token)
-
-            localStorage.setItem('token', response.data.token)
-            localStorage.setItem('nome', tokenData.data.name)
-            
-            $.loadView('home')
-            localStorage.setItem('homeLoaded', true)
+            $('#regiao').val('Região')
         })
   }
     
